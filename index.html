@@ -11,7 +11,8 @@
             id="video"
             src=""
             alt="Video Stream"
-            style="width: 100%; height: auto"
+            style="width: 720px; height: 480px; pointer-events: none"
+            oncontextmenu="return false;"
         />
         <script>
             const ws = new WebSocket("ws://localhost:8330/ws");
@@ -19,7 +20,6 @@
             ws.binaryType = "arraybuffer";
 
             ws.onmessage = function (event) {
-                console.log("eventdata :", event.data);
                 // Create a blob from the received binary data
                 const blob = new Blob([event.data], { type: "image/jpeg" });
                 // Update the src of the image element to display the frame
@@ -33,6 +33,11 @@
             ws.onerror = function (error) {
                 console.error("WebSocket error:", error);
             };
+
+            // Disable right-click on the entire page
+            document.addEventListener("contextmenu", (event) =>
+                event.preventDefault(),
+            );
         </script>
     </body>
 </html>
