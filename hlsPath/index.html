@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Real-Time Image</title>
+    </head>
+    <body>
+        <h1>Real-Time Image Streaming</h1>
+        <img
+            id="image"
+            src=""
+            alt="Real-time Image"
+            style="width: 100%; max-width: 640px"
+        />
+        <script>
+            function updateImage() {
+                fetch("/image")
+                    .then((response) => response.text())
+                    .then((data) => {
+                        const img = document.getElementById("image");
+                        img.src = "data:image/jpeg;base64," + data;
+                    })
+                    .catch((error) =>
+                        console.error("Error fetching image:", error),
+                    );
+            }
+
+            setInterval(updateImage, 1000); // Update gambar setiap detik
+        </script>
+    </body>
+</html>

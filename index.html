@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RTSP Stream Viewer</title>
+    </head>
+    <body>
+        <h1>RTSP Stream Viewer</h1>
+        <img
+            id="video"
+            src=""
+            alt="Video Stream"
+            style="width: 100%; height: auto"
+        />
+        <script>
+            const ws = new WebSocket("ws://localhost:8330/ws");
+            const video = document.getElementById("video");
+            ws.binaryType = "arraybuffer";
+
+            ws.onmessage = function (event) {
+                console.log("eventdata :", event.data);
+                // Create a blob from the received binary data
+                const blob = new Blob([event.data], { type: "image/jpeg" });
+                // Update the src of the image element to display the frame
+                video.src = URL.createObjectURL(blob);
+            };
+
+            ws.onclose = function () {
+                console.log("WebSocket connection closed.");
+            };
+
+            ws.onerror = function (error) {
+                console.error("WebSocket error:", error);
+            };
+        </script>
+    </body>
+</html>
