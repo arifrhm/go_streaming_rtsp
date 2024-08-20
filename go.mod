@@ -1,4 +1,4 @@
-module go_streaming_rtsp
+module github.com/arifrhm/go_streaming_rtsp
 
 go 1.18
 
